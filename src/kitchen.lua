@@ -38,10 +38,10 @@ end
 
 
 function Kitchen:draw()
-    self.screen:draw_static_sprite('coffee_machine', {self.coffee_machine.hover, self.coffee_machine.status}, self.coffee_machine.x, self.coffee_machine.y, 0, 1, true, false)
-    self.screen:draw_static_sprite('plant1', {self.plant1.hover, 1}, self.plant1.x, self.plant1.y, 0, 1, true, false)
-    self.screen:draw_static_sprite('plant2', {self.plant2.hover, 1}, self.plant2.x, self.plant2.y, 0, 1, true, false)
-    self.screen:draw_static_sprite('window', {self.window.time_of_day, 1}, 41, 71, 0, 1, true, false)
+    self.screen:draw_static_sprite('coffee_machine', {self.coffee_machine.hover, self.coffee_machine.status}, self.coffee_machine.x, self.coffee_machine.y, 0, 1, false, false)
+    self.screen:draw_static_sprite('plant1', {self.plant1.hover, 1}, self.plant1.x, self.plant1.y, 0, 1, false, false)
+    self.screen:draw_static_sprite('plant2', {self.plant2.hover, 1}, self.plant2.x, self.plant2.y, 0, 1, false, false)
+    self.screen:draw_static_sprite('window', {self.window.time_of_day, 1}, 41, 71, 0, 1, false, false)
 end
 
 
@@ -49,7 +49,7 @@ function CoffeeMachine:init(screen)
     self.screen = screen
     self.status = Status.OFF
     self.hover = Status.OFF
-    self.x = 66
+    self.x = 65
     self.y = 72
 end
 

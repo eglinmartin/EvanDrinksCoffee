@@ -2,8 +2,8 @@ if arg[2] == "debug" then
     require("lldebugger").start()
 end
 
-
 local Canvas = require("src/canvas")
+local Controller = require("src/controller")
 local Kitchen = require("src/kitchen")
 
 
@@ -14,6 +14,7 @@ function love.load()
     ScreenScale = ScreenWidth/96
 
     SCREEN = Canvas(ScreenScale)
+    CONTROLLER = Controller(SCREEN)
     KITCHEN = Kitchen(SCREEN)
 
     love.window.setTitle("Evan Drinks Coffee")
@@ -22,6 +23,7 @@ end
 
 
 function love.update()
+    CONTROLLER:update()
     KITCHEN:update()
 end
 
@@ -29,6 +31,7 @@ end
 function love.draw()
     SCREEN:draw_static_sprite('main', {1, 1}, 48, 48, 0, 1, false, true)
     
+    CONTROLLER:draw()
     KITCHEN:draw()
 
     SCREEN:draw({61, 0, 61}, ScreenScale)

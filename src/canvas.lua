@@ -25,11 +25,13 @@ function Canvas:init(scale)
     self.scale = scale
     self.sprites_foreground = {}
     self.sprites_shadow = {}
+    self.sprites_background = {}
 
     -- Load all PNGs
     self.sprite_sheets = self:load_sprites()
 
     -- Parse sprite sheets
+    self:parse_sprite_sheet(self.sprite_sheets.bar, 12, 22)
     self:parse_sprite_sheet(self.sprite_sheets.coffee_machine, 20, 16)
     self:parse_sprite_sheet(self.sprite_sheets.main, 96, 96)
     self:parse_sprite_sheet(self.sprite_sheets.plant1, 20, 36)
@@ -75,12 +77,15 @@ function Canvas:draw_static_sprite(sprite_name, sprite_coords, x, y, rotation, s
     sprite.sprite_sheet_image:setFilter("nearest", "nearest")
 
     -- Insert into layers
-    table.insert(self.sprites_foreground, sprite)
-
-    -- Insert into shadow layers
-    if shadow then
+    if background then
+        table.insert(self.sprites_background, sprite)
+    elseif shadow then
         table.insert(self.sprites_shadow, sprite)
+        table.insert(self.sprites_foreground, sprite)
+    else
+        table.insert(self.sprites_foreground, sprite)
     end
+
 end
 
 
@@ -96,9 +101,25 @@ function Canvas:draw(rgb, screen_scale)
         }
     ]]
     
+    -- Draw background layer
+    love.graphics.setShader()
+    love.graphics.setColor(1, 1, 1, 1)
+    for _, sprite in ipairs(self.sprites_background) do
+        sprite.animation:draw(
+            sprite.sprite_sheet_image,
+            sprite.x * screen_scale,
+            sprite.y * screen_scale,
+            sprite.rotation,
+            sprite.scale * screen_scale,
+            sprite.scale * screen_scale,
+            sprite.width/2,
+            sprite.height/2
+        )
+    end
+
     -- Draw shadow layer
     love.graphics.setShader(shadowShader)
-    love.graphics.setColor(92/255, 129/255, 163/255, 1)
+    love.graphics.setColor(0, 0, 0, 0)
     for _, sprite in ipairs(self.sprites_shadow) do
         sprite.animation:draw(
             sprite.sprite_sheet_image,
