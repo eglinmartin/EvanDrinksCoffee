@@ -8,20 +8,21 @@ local Kitchen = require("src/kitchen")
 
 
 function love.load()
-    SCREEN = Canvas()
-    KITCHEN = Kitchen(SCREEN)
-
     ScreenWidth, ScreenHeight = love.window.getDesktopDimensions()
     ScreenHeight = ScreenHeight * 0.8
     ScreenWidth = ScreenHeight
     ScreenScale = ScreenWidth/96
 
-    love.window.setTitle("Evan Drinks a Coffee")
+    SCREEN = Canvas(ScreenScale)
+    KITCHEN = Kitchen(SCREEN)
+
+    love.window.setTitle("Evan Drinks Coffee")
     love.window.setMode(ScreenWidth, ScreenHeight, {fullscreen=false, vsync=true, resizable=false, msaa=4})
 end
 
 
 function love.update()
+    KITCHEN:update()
 end
 
 

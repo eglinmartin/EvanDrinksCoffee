@@ -20,8 +20,9 @@ function Sprite:init(animation, sprite_sheet_image, x, y, w, h, rotation, scale,
 end
 
 
-function Canvas:init()
+function Canvas:init(scale)
     -- Create empty sprite lists
+    self.scale = scale
     self.sprites_foreground = {}
     self.sprites_shadow = {}
 

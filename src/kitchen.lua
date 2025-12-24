@@ -23,41 +23,68 @@ TimeOfDay = {
 
 function Kitchen:init(screen)
     self.screen = screen
-    self.coffee_machine = CoffeeMachine()
-    self.plant1 = Plant()
-    self.plant2 = Plant()
+    self.coffee_machine = CoffeeMachine(screen)
+    self.plant1 = Plant(screen, 21, 69, 20, 36)
+    self.plant2 = Plant(screen, 80, 72, 12, 16)
     self.window = Window()
 end
 
 
 function Kitchen:update()
+    self.coffee_machine:update()
+    self.plant1:update()
+    self.plant2:update()
 end
 
 
 function Kitchen:draw()
-    self.screen:draw_static_sprite('coffee_machine', {self.coffee_machine.hover, self.coffee_machine.status}, 66, 72, 0, 1, true, false)
-    self.screen:draw_static_sprite('plant1', {self.plant1.hover, 1}, 21, 69, 0, 1, true, false)
-    self.screen:draw_static_sprite('plant2', {self.plant2.hover, 1}, 80, 72, 0, 1, true, false)
+    self.screen:draw_static_sprite('coffee_machine', {self.coffee_machine.hover, self.coffee_machine.status}, self.coffee_machine.x, self.coffee_machine.y, 0, 1, true, false)
+    self.screen:draw_static_sprite('plant1', {self.plant1.hover, 1}, self.plant1.x, self.plant1.y, 0, 1, true, false)
+    self.screen:draw_static_sprite('plant2', {self.plant2.hover, 1}, self.plant2.x, self.plant2.y, 0, 1, true, false)
     self.screen:draw_static_sprite('window', {self.window.time_of_day, 1}, 41, 71, 0, 1, true, false)
 end
 
 
-function CoffeeMachine:init()
+function CoffeeMachine:init(screen)
+    self.screen = screen
     self.status = Status.OFF
     self.hover = Status.OFF
+    self.x = 66
+    self.y = 72
 end
 
 
 function CoffeeMachine:update()
+    local mx, my = love.mouse.getPosition()
+
+    scale = self.screen.scale
+    if mx >= (self.x - 10) * scale and mx <= (self.x + 10) * scale and my >= (self.y - 8) * scale and my <= (self.y + 8) * scale then
+        self.hover = Status.ON
+    else
+        self.hover = Status.OFF
+    end
 end
 
 
-function Plant:init()
+function Plant:init(screen, x, y, w, h)
+    self.screen = screen
+    self.x = x
+    self.y = y
+    self.w = w
+    self.h = h
     self.hover = Status.OFF
 end
 
 
 function Plant:update()
+    local mx, my = love.mouse.getPosition()
+
+    scale = self.screen.scale
+    if mx >= (self.x - (self.w) / 2) * scale and mx <= (self.x + (self.w) / 2) * scale and my >= (self.y - (self.h) / 2) * scale and my <= (self.y + (self.h) / 2) * scale then
+        self.hover = Status.ON
+    else
+        self.hover = Status.OFF
+    end
 end
 
 
