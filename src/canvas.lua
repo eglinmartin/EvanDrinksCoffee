@@ -152,6 +152,7 @@ function Canvas:draw(rgb, screen_scale)
     -- Reset sprite lists
     self.sprites_foreground = {}
     self.sprites_shadow = {}
+    self.sprites_background = {}
 end
 
 
