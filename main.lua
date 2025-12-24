@@ -4,10 +4,12 @@ end
 
 
 local Canvas = require("src/canvas")
+local Kitchen = require("src/kitchen")
 
 
 function love.load()
     SCREEN = Canvas()
+    KITCHEN = Kitchen(SCREEN)
 
     ScreenWidth, ScreenHeight = love.window.getDesktopDimensions()
     ScreenHeight = ScreenHeight * 0.8
@@ -25,7 +27,10 @@ end
 
 function love.draw()
     SCREEN:draw_static_sprite('main', {1, 1}, 48, 48, 0, 1, false, true)
-    SCREEN:draw(ScreenScale)
+    
+    KITCHEN:draw()
+
+    SCREEN:draw({61, 0, 61}, ScreenScale)
 end
 
 

@@ -29,7 +29,11 @@ function Canvas:init()
     self.sprite_sheets = self:load_sprites()
 
     -- Parse sprite sheets
+    self:parse_sprite_sheet(self.sprite_sheets.coffee_machine, 20, 16)
     self:parse_sprite_sheet(self.sprite_sheets.main, 96, 96)
+    self:parse_sprite_sheet(self.sprite_sheets.plant1, 20, 36)
+    self:parse_sprite_sheet(self.sprite_sheets.plant2, 12, 16)
+    self:parse_sprite_sheet(self.sprite_sheets.window, 12, 20)
 end
 
 
@@ -79,10 +83,9 @@ function Canvas:draw_static_sprite(sprite_name, sprite_coords, x, y, rotation, s
 end
 
 
-
-function Canvas:draw(screen_scale)
+function Canvas:draw(rgb, screen_scale)
     -- Draw background colour
-    love.graphics.clear(61/255, 0/255, 61/255)
+    love.graphics.clear(rgb[1]/255, rgb[2]/255, rgb[3]/255)
 
     -- Create shader for shadow rendering as block colour
     local shadowShader = love.graphics.newShader[[
