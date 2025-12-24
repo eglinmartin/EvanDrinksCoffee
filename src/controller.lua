@@ -10,8 +10,8 @@ function Controller:init(screen)
     self.screen = screen
     self.player = Player(screen)
 
-    self.fatigue_bar = StatusBar(screen, 72, 35, self.player.fatigue)
-    self.blood_pressure_bar = StatusBar(screen, 85, 35, self.player.blood_pressure)
+    self.fatigue_bar = StatusBar(screen, 73, 35, self.player.fatigue)
+    self.blood_pressure_bar = StatusBar(screen, 86, 35, self.player.blood_pressure)
 end
 
 
@@ -46,7 +46,11 @@ end
 
 
 function StatusBar:draw()
-    self.screen:draw_static_sprite('bar', {1, 1}, self.x + self.dx, self.y + self.dy, 0, 1, false, false)
+    local frame = {1, 1}
+    if self.measure >= 90 then
+        frame = {2, 1}
+    end
+    self.screen:draw_static_sprite('bar', frame, self.x + self.dx, self.y + self.dy, 0, 1, false, false)
 end
 
 
@@ -58,7 +62,7 @@ function Player:init(screen)
     self.alive = true
 
     self.fatigue = 70
-    self.blood_pressure = 0
+    self.blood_pressure = 20
 end
 
 

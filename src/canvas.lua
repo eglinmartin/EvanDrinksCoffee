@@ -31,12 +31,20 @@ function Canvas:init(scale)
     self.sprite_sheets = self:load_sprites()
 
     -- Parse sprite sheets
-    self:parse_sprite_sheet(self.sprite_sheets.bar, 12, 22)
+    self:parse_sprite_sheet(self.sprite_sheets.bar, 16, 24)
     self:parse_sprite_sheet(self.sprite_sheets.coffee_machine, 20, 16)
     self:parse_sprite_sheet(self.sprite_sheets.main, 96, 96)
     self:parse_sprite_sheet(self.sprite_sheets.plant1, 20, 36)
     self:parse_sprite_sheet(self.sprite_sheets.plant2, 12, 16)
     self:parse_sprite_sheet(self.sprite_sheets.window, 12, 20)
+
+    -- Create shadows shader
+    self.shadows_shader = love.graphics.newShader[[
+        vec4 effect(vec4 color, Image tex, vec2 tc, vec2 pc) {
+            float a = Texel(tex, tc).a;
+            return vec4(color.rgb, a);
+        }
+    ]]
 end
 
 
@@ -92,14 +100,6 @@ end
 function Canvas:draw(rgb, screen_scale)
     -- Draw background colour
     love.graphics.clear(rgb[1]/255, rgb[2]/255, rgb[3]/255)
-
-    -- Create shader for shadow rendering as block colour
-    local shadowShader = love.graphics.newShader[[
-        vec4 effect(vec4 color, Image tex, vec2 tc, vec2 pc) {
-            float a = Texel(tex, tc).a;
-            return vec4(color.rgb, a);
-        }
-    ]]
     
     -- Draw background layer
     love.graphics.setShader()
@@ -118,7 +118,7 @@ function Canvas:draw(rgb, screen_scale)
     end
 
     -- Draw shadow layer
-    love.graphics.setShader(shadowShader)
+    love.graphics.setShader(self.shadows_shader)
     love.graphics.setColor(0, 0, 0, 0)
     for _, sprite in ipairs(self.sprites_shadow) do
         sprite.animation:draw(

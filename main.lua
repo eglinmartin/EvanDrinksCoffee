@@ -23,6 +23,7 @@ end
 
 
 function love.update()
+    print(love.timer.getFPS())
     CONTROLLER:update()
     KITCHEN:update()
 end

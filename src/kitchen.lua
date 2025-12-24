@@ -1,4 +1,5 @@
 local Class = require("src/libraries/class")
+local utils = require("src/utils")
 
 local Clock = Class {}
 local CoffeeMachine = Class{}
@@ -38,7 +39,7 @@ end
 
 
 function Kitchen:draw()
-    self.screen:draw_static_sprite('coffee_machine', {self.coffee_machine.hover, self.coffee_machine.status}, self.coffee_machine.x, self.coffee_machine.y, 0, 1, false, false)
+    self.screen:draw_static_sprite('coffee_machine', {self.coffee_machine.hover, self.coffee_machine.status}, self.coffee_machine.x + self.coffee_machine.dx, self.coffee_machine.y, 0, 1, false, false)
     self.screen:draw_static_sprite('plant1', {self.plant1.hover, 1}, self.plant1.x, self.plant1.y, 0, 1, false, false)
     self.screen:draw_static_sprite('plant2', {self.plant2.hover, 1}, self.plant2.x, self.plant2.y, 0, 1, false, false)
     self.screen:draw_static_sprite('window', {self.window.time_of_day, 1}, 41, 71, 0, 1, false, false)
@@ -49,19 +50,27 @@ function CoffeeMachine:init(screen)
     self.screen = screen
     self.status = Status.OFF
     self.hover = Status.OFF
+    self.brewing = true
+
     self.x = 65
     self.y = 72
+    self.dx = 0
+    self.dy = 0
 end
 
 
 function CoffeeMachine:update()
+    local scale = self.screen.scale
     local mx, my = love.mouse.getPosition()
-
-    scale = self.screen.scale
     if mx >= (self.x - 10) * scale and mx <= (self.x + 10) * scale and my >= (self.y - 8) * scale and my <= (self.y + 8) * scale then
         self.hover = Status.ON
     else
         self.hover = Status.OFF
+    end
+
+    self.dx, self.dy = 0, 0
+    if self.brewing then
+        self.dx, self.dy = utils.vibrate(0.25)
     end
 end
 
@@ -79,7 +88,7 @@ end
 function Plant:update()
     local mx, my = love.mouse.getPosition()
 
-    scale = self.screen.scale
+    local scale = self.screen.scale
     if mx >= (self.x - (self.w) / 2) * scale and mx <= (self.x + (self.w) / 2) * scale and my >= (self.y - (self.h) / 2) * scale and my <= (self.y + (self.h) / 2) * scale then
         self.hover = Status.ON
     else
