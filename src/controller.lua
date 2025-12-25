@@ -1,29 +1,54 @@
 local Class = require("src/libraries/class")
+local Player = require("src/player")
 local utils = require("src/utils")
 
 local Controller = Class{}
-local Player = Class{}
 local StatusBar = Class{}
 
 
 function Controller:init(screen)
     self.screen = screen
     self.player = Player(screen)
+    self.time = 0
 
     self.fatigue_bar = StatusBar(screen, 73, 35, self.player.fatigue)
-    self.blood_pressure_bar = StatusBar(screen, 86, 35, self.player.blood_pressure)
+    self.heart_rate_bar = StatusBar(screen, 86, 35, self.player.heart_rate)
 end
 
 
 function Controller:update()
     self.fatigue_bar:update()
-    self.blood_pressure_bar:update()
+    self.heart_rate_bar:update()
 end
 
 
 function Controller:draw()
+    self.heart_rate_bar:draw()
+
+    -- Draw time
+    local hours = string.format("%02d", ((love.timer.getTime() + 360) / 60) % 60)
+    local minutes = string.format("%02d", love.timer.getTime() % 60)
+    self.screen:draw_static_sprite('numbers', {hours:sub(1, 1) + 1, 1}, 21.5, 41, 0, 1, false, false)
+    self.screen:draw_static_sprite('numbers', {hours:sub(2, 2) + 1, 1}, 26.5, 41, 0, 1, false, false)
+    self.screen:draw_static_sprite('numbers', {12, 1}, 31.5, 41, 0, 1, false, false)
+    self.screen:draw_static_sprite('numbers', {minutes:sub(1, 1) + 1, 1}, 33.5, 41, 0, 1, false, false)
+    self.screen:draw_static_sprite('numbers', {minutes:sub(2, 2) + 1, 1}, 38.5, 41, 0, 1, false, false)
+
+    -- Draw fatigue bar
     self.fatigue_bar:draw()
-    self.blood_pressure_bar:draw()
+end
+
+
+function Controller:draw_vectors()
+    local scale = self.screen.scale
+    
+    -- Draw fatigue bar
+    love.graphics.setColor(92/255, 139/255, 168/255, 1)
+    love.graphics.rectangle("fill", (70 + self.fatigue_bar.dx) * scale, (27 + self.fatigue_bar.dy) * scale, 3 * scale, 14 * scale)
+
+    -- Draw heart rate bar
+    love.graphics.setColor(148/255, 44/255, 75/255, 1)
+    love.graphics.rectangle("fill", (83 + self.heart_rate_bar.dx) * scale, (27 + self.fatigue_bar.dy) * scale, 3 * scale, 14 * scale)
 end
 
 
@@ -51,26 +76,6 @@ function StatusBar:draw()
         frame = {2, 1}
     end
     self.screen:draw_static_sprite('bar', frame, self.x + self.dx, self.y + self.dy, 0, 1, false, false)
-end
-
-
-function Player:init(screen)
-    self.screen = screen
-
-    self.x = 0
-    self.y = 0
-    self.alive = true
-
-    self.fatigue = 70
-    self.blood_pressure = 20
-end
-
-
-function Player:update()
-end
-
-
-function Player:draw()
 end
 
 

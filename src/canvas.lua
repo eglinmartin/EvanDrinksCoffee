@@ -34,6 +34,7 @@ function Canvas:init(scale)
     self:parse_sprite_sheet(self.sprite_sheets.bar, 16, 24)
     self:parse_sprite_sheet(self.sprite_sheets.coffee_machine, 20, 16)
     self:parse_sprite_sheet(self.sprite_sheets.main, 96, 96)
+    self:parse_sprite_sheet(self.sprite_sheets.numbers, 7, 8)
     self:parse_sprite_sheet(self.sprite_sheets.plant1, 20, 36)
     self:parse_sprite_sheet(self.sprite_sheets.plant2, 12, 16)
     self:parse_sprite_sheet(self.sprite_sheets.window, 12, 20)
@@ -97,10 +98,7 @@ function Canvas:draw_static_sprite(sprite_name, sprite_coords, x, y, rotation, s
 end
 
 
-function Canvas:draw(rgb, screen_scale)
-    -- Draw background colour
-    love.graphics.clear(rgb[1]/255, rgb[2]/255, rgb[3]/255)
-    
+function Canvas:draw(screen_scale)
     -- Draw background layer
     love.graphics.setShader()
     love.graphics.setColor(1, 1, 1, 1)
@@ -112,8 +110,8 @@ function Canvas:draw(rgb, screen_scale)
             sprite.rotation,
             sprite.scale * screen_scale,
             sprite.scale * screen_scale,
-            sprite.width/2,
-            sprite.height/2
+            sprite.width / 2,
+            sprite.height / 2
         )
     end
 
@@ -128,8 +126,8 @@ function Canvas:draw(rgb, screen_scale)
             sprite.rotation,
             sprite.scale * screen_scale,
             sprite.scale * screen_scale,
-            sprite.width/2,
-            sprite.height/2
+            sprite.width / 2,
+            sprite.height / 2
         )
     end
 
@@ -144,8 +142,8 @@ function Canvas:draw(rgb, screen_scale)
             sprite.rotation,
             sprite.scale * screen_scale,
             sprite.scale * screen_scale,
-            sprite.width/2,
-            sprite.height/2
+            sprite.width / 2,
+            sprite.height / 2
         )
     end
 

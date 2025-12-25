@@ -2,6 +2,7 @@ if arg[2] == "debug" then
     require("lldebugger").start()
 end
 
+
 local Canvas = require("src/canvas")
 local Controller = require("src/controller")
 local Kitchen = require("src/kitchen")
@@ -23,19 +24,23 @@ end
 
 
 function love.update()
-    print(love.timer.getFPS())
     CONTROLLER:update()
     KITCHEN:update()
 end
 
 
 function love.draw()
+    love.graphics.clear(61/255, 0/255, 61/255)
+
     SCREEN:draw_static_sprite('main', {1, 1}, 48, 48, 0, 1, false, true)
     
     CONTROLLER:draw()
     KITCHEN:draw()
 
-    SCREEN:draw({61, 0, 61}, ScreenScale)
+    SCREEN:draw(ScreenScale)
+
+    CONTROLLER:draw_vectors()
+
 end
 
 
