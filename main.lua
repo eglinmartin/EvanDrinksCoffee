@@ -8,6 +8,12 @@ local Controller = require("src/controller")
 local Kitchen = require("src/kitchen")
 
 
+Direction = {
+    LEFT = -1,
+    RIGHT = 1
+}
+
+
 function love.load()
     ScreenWidth, ScreenHeight = love.window.getDesktopDimensions()
     ScreenHeight = ScreenHeight * 0.8
@@ -15,8 +21,8 @@ function love.load()
     ScreenScale = ScreenWidth/96
 
     SCREEN = Canvas(ScreenScale)
-    CONTROLLER = Controller(SCREEN)
     KITCHEN = Kitchen(SCREEN)
+    CONTROLLER = Controller(SCREEN)
 
     love.window.setTitle("Evan Drinks Coffee")
     love.window.setMode(ScreenWidth, ScreenHeight, {fullscreen=false, vsync=true, resizable=false, msaa=4})
@@ -34,17 +40,13 @@ function love.draw()
 
     SCREEN:draw_static_sprite('main', {1, 1}, 48, 48, 0, 1, false, true)
     
-    CONTROLLER:draw()
     KITCHEN:draw()
+    CONTROLLER:draw()
 
     SCREEN:draw(ScreenScale)
 
     CONTROLLER:draw_vectors()
 
-end
-
-
-function love.keypressed(key)
 end
 
 

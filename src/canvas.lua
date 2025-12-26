@@ -37,6 +37,7 @@ function Canvas:init(scale)
     self:parse_sprite_sheet(self.sprite_sheets.numbers, 7, 8)
     self:parse_sprite_sheet(self.sprite_sheets.plant1, 20, 36)
     self:parse_sprite_sheet(self.sprite_sheets.plant2, 12, 16)
+    self:parse_sprite_sheet(self.sprite_sheets.player, 12, 12)
     self:parse_sprite_sheet(self.sprite_sheets.window, 12, 20)
 
     -- Create shadows shader

@@ -19,6 +19,7 @@ end
 function Controller:update()
     self.fatigue_bar:update()
     self.heart_rate_bar:update()
+    self.player:update()
 end
 
 
@@ -36,11 +37,13 @@ function Controller:draw()
 
     -- Draw fatigue bar
     self.fatigue_bar:draw()
+    self.player:draw()
 end
 
 
 function Controller:draw_vectors()
     local scale = self.screen.scale
+    local width = 3 * scale
     
     -- Draw fatigue bar
     love.graphics.setColor(92/255, 139/255, 168/255, 1)
@@ -48,7 +51,7 @@ function Controller:draw_vectors()
 
     -- Draw heart rate bar
     love.graphics.setColor(148/255, 44/255, 75/255, 1)
-    love.graphics.rectangle("fill", (83 + self.heart_rate_bar.dx) * scale, (27 + self.fatigue_bar.dy) * scale, 3 * scale, 14 * scale)
+    love.graphics.rectangle("fill", (83 + self.heart_rate_bar.dx) * scale, (27 + self.heart_rate_bar.dy) * scale, 3 * scale, 14 * scale)
 end
 
 
